@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KHCN OUTBOUND · 중고 맥북 판매 안내</title>
+<style>
+  :root{
+    --board-bg: #121316;
+    --case-bg: #0b0c0e;
+    --flap-bg: #1c1e22;
+    --flap-bg-dim: #17181b;
+    --flap-line: #050506;
+    --text-main: #f2ede0;
+    --text-dim: #8a8d95;
+    --amber: #e8b559;
+    --grade-1: #4fae7a;
+    --grade-2: #4f8fd6;
+    --grade-3: #d6b74f;
+    --grade-4: #d68f4f;
+    --grade-5: #cf5f5f;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #08090a;
+    background-image:
+      radial-gradient(ellipse at top, #16181c 0%, #08090a 60%);
+    color: var(--text-main);
+    font-family: 'Courier New', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 16px 60px;
+  }
+
+  /* ---------- Header ---------- */
+  .board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 0 6px 18px;
+    border-bottom: 1px solid #2a2c31;
+    margin-bottom: 22px;
+  }
+
+  .board-header h1 {
+    font-size: 22px;
+    letter-spacing: 2px;
+    margin: 0 0 6px;
+    color: var(--amber);
+    font-weight: 700;
+  }
+
+  .board-header .sub {
+    color: var(--text-dim);
+    font-size: 12.5px;
+    letter-spacing: 1px;
+  }
+
+  .header-right {
+    text-align: right;
+    color: var(--text-dim);
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+
+  .header-right .clock {
+    color: var(--amber);
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-weight: 700;
+  }
+
+  /* ---------- Board case ---------- */
+  .case {
+    background: var(--case-bg);
+    border-radius: 10px;
+    padding: 18px 14px;
+    box-shadow:
+      inset 0 0 0 1px #232529,
+      0 30px 60px -20px rgba(0,0,0,0.7);
+    overflow-x: auto;
+  }
+
+  .col-titles, .row {
+    display: grid;
+    grid-template-columns: 1.3fr 1.15fr 0.8fr 2fr 1.6fr 0.9fr 1.7fr;
+    gap: 8px;
+    min-width: 880px;
+    align-items: center;
+  }
+
+  .col-titles {
+    padding: 0 4px 10px;
+    color: var(--text-dim);
+    font-size: 10.5px;
+    letter-spacing: 2px;
+    border-bottom: 1px dashed #2a2c31;
+    margin-bottom: 10px;
+  }
+
+  /* ---------- Sort view tabs ---------- */
+  .view-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 0 4px 14px;
+  }
+
+  .view-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #17181b;
+    border: 1px solid #2a2c31;
+    color: var(--text-dim);
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color 200ms, border-color 200ms, background 200ms;
+  }
+
+  .view-tab .dash {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #3a3c42;
+    transition: background 200ms;
+  }
+
+  .view-tab.active {
+    color: var(--amber);
+    border-color: var(--amber);
+    background: rgba(232,181,89,0.08);
+  }
+
+  .view-tab.active .dash { background: var(--amber); }
+
+  .row {
+    padding: 6px 4px;
+  }
+
+  .row + .row { margin-top: 6px; }
+
+  /* ---------- Flap chip ---------- */
+  .cell { perspective: 240px; }
+
+  .flap {
+    position: relative;
+    height: 38px;
+    border-radius: 4px;
+    background: var(--flap-bg);
+    box-shadow:
+      inset 0 0 0 1px #050506,
+      0 1px 0 rgba(255,255,255,0.03);
+  }
+
+  .flap::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 1px;
+    background: var(--flap-line);
+    transform: translateY(-0.5px);
+    opacity: 0.85;
+    z-index: 3;
+  }
+
+  .flap-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 220ms cubic-bezier(.5,0,.5,1);
+  }
+
+  .flap.flipping .flap-inner {
+    transform: rotateX(-180deg);
+  }
+
+  .face {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    backface-visibility: hidden;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .face.front { background: var(--flap-bg); }
+  .face.back  {
+    background: var(--flap-bg-dim);
+    transform: rotateX(180deg);
+  }
+
+  .cell--id .face { color: var(--amber); font-weight: 700; }
+  .cell--price .face { color: var(--text-main); font-weight: 700; justify-content: flex-end; padding-right: 12px;}
+  .cell--price .face::after { content: " 원"; color: var(--text-dim); font-weight: 400; margin-left: 2px; }
+  .cell--grade .face { font-weight: 700; }
+
+  .grade-1 .face { color: var(--grade-1); }
+  .grade-2 .face { color: var(--grade-2); }
+  .grade-3 .face { color: var(--grade-3); }
+  .grade-4 .face { color: var(--grade-4); }
+  .grade-5 .face { color: var(--grade-5); }
+
+  /* ---------- Footer controls ---------- */
+  .board-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 0 6px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .dots { display: flex; gap: 8px; }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #33353a;
+    cursor: pointer;
+    transition: background 200ms;
+  }
+  .dot.active { background: var(--amber); }
+
+  .nav-btns { display: flex; gap: 8px; }
+  .nav-btns button {
+    background: #17181b;
+    color: var(--text-main);
+    border: 1px solid #2a2c31;
+    border-radius: 6px;
+    width: 32px; height: 32px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .nav-btns button:hover { border-color: var(--amber); color: var(--amber); }
+
+  .legend {
+    color: var(--text-dim);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  .legend span { margin-right: 10px; }
+
+  .source-link {
+    display: block;
+    text-align: center;
+    margin-top: 26px;
+    color: var(--text-dim);
+    font-size: 11.5px;
+    letter-spacing: 0.5px;
+  }
+  .source-link a { color: var(--amber); text-decoration: none; }
+  .source-link a:hover { text-decoration: underline; }
+
+  @media (max-width: 620px) {
+    .board-header { flex-direction: column; align-items: flex-start; }
+    .header-right { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="board-header">
+    <div>
+      <h1>KHCN OUTBOUND</h1>
+      <div class="sub">판매 대상 중고 컴퓨터 목록 · 총 33대 재고</div>
+    </div>
+    <div class="header-right">
+      <div class="clock" id="clock">--:--:--</div>
+      <div id="dateLine">-</div>
+    </div>
+  </div>
+
+  <div class="case">
+    <div class="view-tabs" id="viewTabs"></div>
+    <div class="col-titles">
+      <div>관리번호</div>
+      <div>기종</div>
+      <div>크기</div>
+      <div>사양</div>
+      <div>배터리</div>
+      <div>등급</div>
+      <div>판매가</div>
+    </div>
+    <div id="board"></div>
+  </div>
+
+  <div class="board-footer">
+    <div class="legend">
+      <span style="color:var(--grade-1)">● 1등급</span>
+      <span style="color:var(--grade-2)">● 2등급</span>
+      <span style="color:var(--grade-3)">● 3등급</span>
+      <span style="color:var(--grade-4)">● 4등급</span>
+      <span style="color:var(--grade-5)">● 5등급</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div class="dots" id="dots"></div>
+      <div class="nav-btns">
+        <button id="prevBtn">‹</button>
+        <button id="nextBtn">›</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="source-link">
+    원본 재고 데이터: <a href="https://app.notion.com/p/khcmst/e418750bf4794a83ad315fb7e9a5007c" target="_blank" rel="noopener">Notion · 판매 대상 중고 컴퓨터 목록</a>
+  </div>
+
+</div>
+
+<script>
+  // ---------------- Data (Notion "판매 대상 중고 컴퓨터 목록" 기준, 기기 번호 오름차순) ----------------
+  const DATA = [
+    { id:"KHCN0011", cpu:"M1 PRO", size:"16", specs:"16GPU/16GB/512GB", battery:"79% · 313회", grade:5, price:"840,000" },
+    { id:"KHCN0023", cpu:"M1 MAX", size:"16", specs:"32GPU/32GB/1TB",   battery:"83% · 228회", grade:4, price:"1,030,000" },
+    { id:"KHCN0024", cpu:"M1 MAX", size:"16", specs:"32GPU/32GB/1TB",   battery:"85% · 339회", grade:4, price:"1,260,000" },
+    { id:"KHCN0028", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"86% · 223회", grade:3, price:"787,000" },
+    { id:"KHCN0035", cpu:"M1 PRO", size:"16", specs:"16GPU/16GB/512GB", battery:"90% · 128회", grade:3, price:"706,000" },
+    { id:"KHCN0040", cpu:"M1 MAX", size:"16", specs:"32GPU/32GB/1TB",   battery:"86% · 215회", grade:4, price:"1,710,000" },
+    { id:"KHCN0089", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"92% · 66회",  grade:2, price:"1,490,000" },
+    { id:"KHCN0090", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"83% · 407회", grade:4, price:"1,030,000" },
+    { id:"KHCN0091", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"97% · 97회",  grade:1, price:"1,030,000" },
+    { id:"KHCN0093", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"81% · 210회", grade:4, price:"770,000" },
+    { id:"KHCN0099", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"79% · 242회", grade:5, price:"756,000" },
+    { id:"KHCN0107", cpu:"M1 PRO", size:"16", specs:"16GPU/16GB/512GB", battery:"84% · 173회", grade:4, price:"520,000" },
+    { id:"KHCN0144", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"80% · 517회", grade:5, price:"1,030,000" },
+    { id:"KHCN0147", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"80% · 359회", grade:5, price:"756,000" },
+    { id:"KHCN0151", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"85% · 303회", grade:4, price:"835,000" },
+    { id:"KHCN0157", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"80% · 408회", grade:5, price:"756,000" },
+    { id:"KHCN0159", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"89% · 192회", grade:3, price:"857,000" },
+    { id:"KHCN0164", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"90% · 230회", grade:3, price:"857,000" },
+    { id:"KHCN0165", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"84% · 233회", grade:3, price:"857,000" },
+    { id:"KHCN0183", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"86% · 191회", grade:3, price:"810,000" },
+    { id:"KHCN0192", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"83% · 130회", grade:3, price:"1,120,000" },
+    { id:"KHCN0196", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"80% · 284회", grade:4, price:"999,000" },
+    { id:"KHCN0201", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"82% · 154회", grade:4, price:"1,120,000" },
+    { id:"KHCN0207", cpu:"M2 PRO", size:"14", specs:"16GPU/16GB/512GB", battery:"82% · 184회", grade:3, price:"999,000" },
+    { id:"KHCN0215", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"75% · 370회", grade:4, price:"1,045,000" },
+    { id:"KHCN0230", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"87% · 173회", grade:3, price:"1,226,000" },
+    { id:"KHCN0231", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"81% · 183회", grade:4, price:"1,226,000" },
+    { id:"KHCN0234", cpu:"M2 PRO", size:"14", specs:"16GPU/16GB/512GB", battery:"90% · 185회", grade:3, price:"1,430,000" },
+    { id:"KHCN0237", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"94% · 38회",  grade:2, price:"1,330,000" },
+    { id:"KHCN0240", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"92% · 99회",  grade:2, price:"1,330,000" },
+    { id:"KHCN0241", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"100% · 39회", grade:1, price:"1,120,000" },
+    { id:"KHCN0249", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"90% · 94회",  grade:2, price:"1,330,000" },
+    { id:"KHCN0315", cpu:"M3",     size:"14", specs:"10GPU/16GB/512GB", battery:"94% · 130회", grade:1, price:"1,415,000" },
+  ];
+
+  const PAGE_SIZE = 11;
+  const PAGE_COUNT = Math.ceil(DATA.length / PAGE_SIZE);
+  const COLS = ["id", "cpu", "size", "specs", "battery", "grade", "price"];
+
+  function priceNum(row){ return parseInt(row.price.replace(/,/g, ""), 10); }
+  function idNum(row){ return parseInt(row.id.replace(/\D/g, ""), 10); }
+
+  // ---------------- 3 rotating sort views ----------------
+  const VIEWS = [
+    {
+      key: "id",
+      label: "기기번호 순",
+      data: [...DATA].sort((a, b) => idNum(a) - idNum(b)),
+    },
+    {
+      key: "grade",
+      label: "등급 순",
+      data: [...DATA].sort((a, b) => (a.grade - b.grade) || (idNum(a) - idNum(b))),
+    },
+    {
+      key: "price",
+      label: "판매가 높은 순",
+      data: [...DATA].sort((a, b) => (priceNum(b) - priceNum(a)) || (idNum(a) - idNum(b))),
+    },
+  ];
+
+  const board = document.getElementById("board");
+  const dotsWrap = document.getElementById("dots");
+  const tabsWrap = document.getElementById("viewTabs");
+  let currentView = 0;
+  let currentPage = -1;
+  let autoTimer = null;
+
+  function fmtCell(row, col){
+    if (col === "size") return row.size + "인치";
+    if (col === "grade") return String(row.grade) + "등급";
+    return row[col];
+  }
+
+  function buildRow(){
+    const row = document.createElement("div");
+    row.className = "row";
+    COLS.forEach(col => {
+      const cell = document.createElement("div");
+      cell.className = "cell cell--" + col;
+      cell.innerHTML =
+        '<div class="flap">' +
+          '<div class="flap-inner">' +
+            '<div class="face front"></div>' +
+            '<div class="face back"></div>' +
+          '</div>' +
+        '</div>';
+      row.appendChild(cell);
+    });
+    return row;
+  }
+
+  // build static row skeletons once
+  const rowEls = [];
+  for (let i = 0; i < PAGE_SIZE; i++) {
+    const r = buildRow();
+    board.appendChild(r);
+    rowEls.push(r);
+  }
+
+  function setDots(){
+    dotsWrap.innerHTML = "";
+    for (let p = 0; p < PAGE_COUNT; p++) {
+      const d = document.createElement("div");
+      d.className = "dot" + (p === currentPage ? " active" : "");
+      d.addEventListener("click", () => { goToView(currentView, p); resetAuto(); });
+      dotsWrap.appendChild(d);
+    }
+  }
+
+  function setTabs(){
+    tabsWrap.innerHTML = "";
+    VIEWS.forEach((v, vIdx) => {
+      const tab = document.createElement("div");
+      tab.className = "view-tab" + (vIdx === currentView ? " active" : "");
+      tab.innerHTML = '<span class="dash"></span><span>' + v.label + "</span>";
+      tab.addEventListener("click", () => { goToView(vIdx, 0); resetAuto(); });
+      tabsWrap.appendChild(tab);
+    });
+  }
+
+  function flipCell(cellEl, newText, extraClass, delay){
+    setTimeout(() => {
+      const flap = cellEl.querySelector(".flap");
+      const front = cellEl.querySelector(".face.front");
+      const back = cellEl.querySelector(".face.back");
+
+      if (front.textContent === newText) return; // no change, skip flip
+
+      if (extraClass) {
+        cellEl.classList.remove("grade-1","grade-2","grade-3","grade-4","grade-5");
+        cellEl.classList.add(extraClass);
+      }
+
+      back.textContent = newText;
+      flap.classList.add("flipping");
+
+      const onEnd = () => {
+        front.textContent = newText;
+        flap.classList.remove("flipping");
+        flap.removeEventListener("transitionend", onEnd);
+      };
+      flap.addEventListener("transitionend", onEnd);
+    }, delay);
+  }
+
+  function goToView(viewIdx, pageIdx){
+    currentView = viewIdx;
+    currentPage = pageIdx;
+    const start = pageIdx * PAGE_SIZE;
+    const slice = VIEWS[viewIdx].data.slice(start, start + PAGE_SIZE);
+
+    rowEls.forEach((rowEl, rIdx) => {
+      const data = slice[rIdx];
+      const rowDelay = rIdx * 90;
+      const cells = rowEl.querySelectorAll(".cell");
+      cells.forEach((cellEl, cIdx) => {
+        const col = COLS[cIdx];
+        const cellDelay = rowDelay + cIdx * 22;
+        if (!data) {
+          flipCell(cellEl, "", null, cellDelay);
+          return;
+        }
+        const text = fmtCell(data, col);
+        const gradeClass = col === "grade" ? ("grade-" + data.grade) : null;
+        flipCell(cellEl, text, gradeClass, cellDelay);
+      });
+    });
+
+    setDots();
+    setTabs();
+  }
+
+  // advance: next page within current view, then roll over to the next view
+  function nextStep(){
+    if (currentPage + 1 < PAGE_COUNT) {
+      goToView(currentView, currentPage + 1);
+    } else {
+      goToView((currentView + 1) % VIEWS.length, 0);
+    }
+  }
+
+  function prevStep(){
+    if (currentPage - 1 >= 0) {
+      goToView(currentView, currentPage - 1);
+    } else {
+      const prevView = (currentView - 1 + VIEWS.length) % VIEWS.length;
+      goToView(prevView, PAGE_COUNT - 1);
+    }
+  }
+
+  function resetAuto(){
+    if (autoTimer) clearInterval(autoTimer);
+    autoTimer = setInterval(nextStep, 5200);
+  }
+
+  document.getElementById("nextBtn").addEventListener("click", () => { nextStep(); resetAuto(); });
+  document.getElementById("prevBtn").addEventListener("click", () => { prevStep(); resetAuto(); });
+
+  // initial reveal
+  setTimeout(() => { goToView(0, 0); resetAuto(); }, 400);
+
+  // ---------------- Clock ----------------
+  function tickClock(){
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,"0");
+    const mm = String(now.getMinutes()).padStart(2,"0");
+    const ss = String(now.getSeconds()).padStart(2,"0");
+    document.getElementById("clock").textContent = hh + ":" + mm + ":" + ss;
+    const days = ["일","월","화","수","목","금","토"];
+    document.getElementById("dateLine").textContent =
+      now.getFullYear() + "." + String(now.getMonth()+1).padStart(2,"0") + "." + String(now.getDate()).padStart(2,"0") +
+      " (" + days[now.getDay()] + ")";
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+</script>
+
+</body>
+</html>
