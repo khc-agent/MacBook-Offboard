@@ -316,7 +316,7 @@
   <div class="case">
     <div class="view-tabs" id="viewTabs"></div>
     <div class="col-titles">
-      <div class="col--id">관리번호</div>
+      <div class="col--id">기기번호</div>
       <div class="col--cpu">기종</div>
       <div class="col--size">크기</div>
       <div class="col--specs">사양</div>
@@ -363,39 +363,39 @@
 
   // ---------------- Data (Notion "판매 대상 중고 컴퓨터 목록" 기준, 기기 번호 오름차순) ----------------
   var DATA = [
-    { id:"KHCN0011", cpu:"M1 PRO", size:"16", specs:"16GPU/16GB/512GB", battery:"79% · 313회", grade:5, price:"840,000" },
-    { id:"KHCN0023", cpu:"M1 MAX", size:"16", specs:"32GPU/32GB/1TB",   battery:"83% · 228회", grade:4, price:"1,030,000" },
-    { id:"KHCN0024", cpu:"M1 MAX", size:"16", specs:"32GPU/32GB/1TB",   battery:"85% · 339회", grade:4, price:"1,260,000" },
-    { id:"KHCN0028", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"86% · 223회", grade:3, price:"787,000" },
-    { id:"KHCN0035", cpu:"M1 PRO", size:"16", specs:"16GPU/16GB/512GB", battery:"90% · 128회", grade:3, price:"706,000" },
-    { id:"KHCN0040", cpu:"M1 MAX", size:"16", specs:"32GPU/32GB/1TB",   battery:"86% · 215회", grade:4, price:"1,710,000" },
-    { id:"KHCN0089", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"92% · 66회",  grade:2, price:"1,490,000" },
-    { id:"KHCN0090", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"83% · 407회", grade:4, price:"1,030,000" },
-    { id:"KHCN0091", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"97% · 97회",  grade:1, price:"1,030,000" },
-    { id:"KHCN0093", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"81% · 210회", grade:4, price:"770,000" },
-    { id:"KHCN0099", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"79% · 242회", grade:5, price:"756,000" },
-    { id:"KHCN0107", cpu:"M1 PRO", size:"16", specs:"16GPU/16GB/512GB", battery:"84% · 173회", grade:4, price:"520,000" },
-    { id:"KHCN0144", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"80% · 517회", grade:5, price:"1,030,000" },
-    { id:"KHCN0147", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"80% · 359회", grade:5, price:"756,000" },
-    { id:"KHCN0151", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"85% · 303회", grade:4, price:"835,000" },
-    { id:"KHCN0157", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"80% · 408회", grade:5, price:"756,000" },
-    { id:"KHCN0159", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"89% · 192회", grade:3, price:"857,000" },
-    { id:"KHCN0164", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"90% · 230회", grade:3, price:"857,000" },
-    { id:"KHCN0165", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"84% · 233회", grade:3, price:"857,000" },
-    { id:"KHCN0183", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"86% · 191회", grade:3, price:"810,000" },
-    { id:"KHCN0192", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"83% · 130회", grade:3, price:"1,120,000" },
-    { id:"KHCN0196", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"80% · 284회", grade:4, price:"999,000" },
-    { id:"KHCN0201", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"82% · 154회", grade:4, price:"1,120,000" },
-    { id:"KHCN0207", cpu:"M2 PRO", size:"14", specs:"16GPU/16GB/512GB", battery:"82% · 184회", grade:3, price:"999,000" },
-    { id:"KHCN0215", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"75% · 370회", grade:4, price:"1,045,000" },
-    { id:"KHCN0230", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"87% · 173회", grade:3, price:"1,226,000" },
-    { id:"KHCN0231", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"81% · 183회", grade:4, price:"1,226,000" },
-    { id:"KHCN0234", cpu:"M2 PRO", size:"14", specs:"16GPU/16GB/512GB", battery:"90% · 185회", grade:3, price:"1,430,000" },
-    { id:"KHCN0237", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"94% · 38회",  grade:2, price:"1,330,000" },
-    { id:"KHCN0240", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"92% · 99회",  grade:2, price:"1,330,000" },
-    { id:"KHCN0241", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"100% · 39회", grade:1, price:"1,120,000" },
-    { id:"KHCN0249", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"90% · 94회",  grade:2, price:"1,330,000" },
-    { id:"KHCN0315", cpu:"M3",     size:"14", specs:"10GPU/16GB/512GB", battery:"94% · 130회", grade:1, price:"1,415,000" },
+    { no:1,  id:"KHCN0011", cpu:"M1 PRO", size:"16", specs:"16GPU/16GB/512GB", battery:"79% · 313회", grade:5, price:"840,000" },
+    { no:2,  id:"KHCN0023", cpu:"M1 MAX", size:"16", specs:"32GPU/32GB/1TB",   battery:"83% · 228회", grade:4, price:"1,030,000" },
+    { no:3,  id:"KHCN0024", cpu:"M1 MAX", size:"16", specs:"32GPU/32GB/1TB",   battery:"85% · 339회", grade:4, price:"1,260,000" },
+    { no:4,  id:"KHCN0028", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"86% · 223회", grade:3, price:"787,000" },
+    { no:5,  id:"KHCN0035", cpu:"M1 PRO", size:"16", specs:"16GPU/16GB/512GB", battery:"90% · 128회", grade:3, price:"706,000" },
+    { no:6,  id:"KHCN0040", cpu:"M1 MAX", size:"16", specs:"32GPU/32GB/1TB",   battery:"86% · 215회", grade:4, price:"1,710,000" },
+    { no:7,  id:"KHCN0089", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"92% · 66회",  grade:2, price:"1,490,000" },
+    { no:8,  id:"KHCN0090", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"83% · 407회", grade:4, price:"1,030,000" },
+    { no:9,  id:"KHCN0091", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"97% · 97회",  grade:1, price:"1,030,000" },
+    { no:10, id:"KHCN0093", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"81% · 210회", grade:4, price:"770,000" },
+    { no:11, id:"KHCN0099", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"79% · 242회", grade:5, price:"756,000" },
+    { no:12, id:"KHCN0107", cpu:"M1 PRO", size:"16", specs:"16GPU/16GB/512GB", battery:"84% · 173회", grade:4, price:"520,000" },
+    { no:13, id:"KHCN0144", cpu:"M1 PRO", size:"16", specs:"16GPU/32GB/1TB",   battery:"80% · 517회", grade:5, price:"1,030,000" },
+    { no:14, id:"KHCN0147", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"80% · 359회", grade:5, price:"756,000" },
+    { no:15, id:"KHCN0151", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"85% · 303회", grade:4, price:"835,000" },
+    { no:16, id:"KHCN0157", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"80% · 408회", grade:5, price:"756,000" },
+    { no:17, id:"KHCN0159", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"89% · 192회", grade:3, price:"857,000" },
+    { no:18, id:"KHCN0164", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"90% · 230회", grade:3, price:"857,000" },
+    { no:19, id:"KHCN0165", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"84% · 233회", grade:3, price:"857,000" },
+    { no:20, id:"KHCN0183", cpu:"M1 PRO", size:"14", specs:"16GPU/16GB/1TB",   battery:"86% · 191회", grade:3, price:"810,000" },
+    { no:21, id:"KHCN0192", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"83% · 130회", grade:3, price:"1,120,000" },
+    { no:22, id:"KHCN0196", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"80% · 284회", grade:4, price:"999,000" },
+    { no:23, id:"KHCN0201", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"82% · 154회", grade:4, price:"1,120,000" },
+    { no:24, id:"KHCN0207", cpu:"M2 PRO", size:"14", specs:"16GPU/16GB/512GB", battery:"82% · 184회", grade:3, price:"999,000" },
+    { no:25, id:"KHCN0215", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"75% · 370회", grade:4, price:"1,045,000" },
+    { no:26, id:"KHCN0230", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"87% · 173회", grade:3, price:"1,226,000" },
+    { no:27, id:"KHCN0231", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"81% · 183회", grade:4, price:"1,226,000" },
+    { no:28, id:"KHCN0234", cpu:"M2 PRO", size:"14", specs:"16GPU/16GB/512GB", battery:"90% · 185회", grade:3, price:"1,430,000" },
+    { no:29, id:"KHCN0237", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"94% · 38회",  grade:2, price:"1,330,000" },
+    { no:30, id:"KHCN0240", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"92% · 99회",  grade:2, price:"1,330,000" },
+    { no:31, id:"KHCN0241", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"100% · 39회", grade:1, price:"1,120,000" },
+    { no:32, id:"KHCN0249", cpu:"M2 PRO", size:"14", specs:"16GPU/32GB/512GB", battery:"90% · 94회",  grade:2, price:"1,330,000" },
+    { no:33, id:"KHCN0315", cpu:"M3",     size:"14", specs:"10GPU/16GB/512GB", battery:"94% · 130회", grade:1, price:"1,415,000" },
   ];
 
   var PAGE_SIZE = 11;
@@ -432,6 +432,7 @@
   var autoTimer = null;
 
   function fmtCell(row, col){
+    if (col === "id") return String(row.no).padStart(2, "0");
     if (col === "size") return row.size + "인치";
     if (col === "grade") return String(row.grade) + "등급";
     return row[col];
